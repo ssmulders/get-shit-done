@@ -465,8 +465,11 @@ export const validateHealth: QueryHandler = async (args, projectDir, _workstream
     try {
       const raw = await readFile(configPath, 'utf-8');
       const parsed = JSON.parse(raw) as Record<string, unknown>;
-      if (parsed.model_profile && !VALID_PROFILES.includes(parsed.model_profile as string)) {
-        addIssue('warning', 'W004', `config.json: invalid model_profile "${parsed.model_profile}"`, `Valid values: ${VALID_PROFILES.join(', ')}`);
+      if (parsed.model_profile !== undefined) {
+        const profile = String(parsed.model_profile).trim().toLowerCase();
+        if (!VALID_PROFILES.includes(profile)) {
+          addIssue('warning', 'W004', `config.json: invalid model_profile "${parsed.model_profile}"`, `Valid values: ${VALID_PROFILES.join(', ')}`);
+        }
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
