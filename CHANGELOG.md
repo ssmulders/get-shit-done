@@ -28,6 +28,7 @@ If you use GSD **as a workflow**—milestones, phases, `.planning/` artifacts, b
 
 ### Fixed
 
+- **`config-set-model-profile` rejected `inherit` despite runtime support** — `VALID_PROFILES` was derived solely from `MODEL_PROFILES` keys, which cannot include `inherit` (a meta-profile that bypasses the map). The health validator had its own hardcoded list that included `inherit` but omitted `adaptive`. Unified all three allowlists into a single `VALID_PROFILES` constant that appends `inherit` after the `MODEL_PROFILES`-derived entries (#2601)
 - **Shell hooks falsely flagged as stale on every session** — `gsd-phase-boundary.sh`, `gsd-session-state.sh`, and `gsd-validate-commit.sh` now ship with a `# gsd-hook-version: {{GSD_VERSION}}` header; the installer substitutes `{{GSD_VERSION}}` in `.sh` hooks the same way it does for `.js` hooks; and the stale-hook detector in `gsd-check-update.js` now matches bash `#` comment syntax in addition to JS `//` syntax. All three changes are required together — neither the regex fix alone nor the install fix alone is sufficient to resolve the false positive (#2136, #2206, #2209, #2210, #2212)
 
 ### Added

@@ -189,8 +189,8 @@ describe('MODEL_PROFILES', () => {
 // ─── VALID_PROFILES ─────────────────────────────────────────────────────────
 
 describe('VALID_PROFILES', () => {
-  it('contains the four profile names', async () => {
+  it('contains the five profile names including inherit', async () => {
     const { VALID_PROFILES } = await import('./config-query.js');
-    expect(VALID_PROFILES).toEqual(['quality', 'balanced', 'budget', 'adaptive']);
+    expect(VALID_PROFILES).toEqual(['quality', 'balanced', 'budget', 'adaptive', 'inherit']);
   });
 });

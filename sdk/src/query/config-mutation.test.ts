@@ -295,6 +295,20 @@ describe('configSetModelProfile', () => {
     await expect(configSetModelProfile(['invalid_profile'], tmpDir)).rejects.toThrow(GSDError);
   });
 
+  it('accepts inherit profile', async () => {
+    const { configSetModelProfile } = await import('./config-mutation.js');
+    await writeFile(
+      join(tmpDir, '.planning', 'config.json'),
+      JSON.stringify({ model_profile: 'balanced' }),
+    );
+    const result = await configSetModelProfile(['inherit'], tmpDir);
+    expect((result.data as { updated: boolean }).updated).toBe(true);
+    expect((result.data as { profile: string }).profile).toBe('inherit');
+
+    const raw = JSON.parse(await readFile(join(tmpDir, '.planning', 'config.json'), 'utf-8'));
+    expect(raw.model_profile).toBe('inherit');
+  });
+
   it('normalizes profile name to lowercase', async () => {
     const { configSetModelProfile } = await import('./config-mutation.js');
     await writeFile(

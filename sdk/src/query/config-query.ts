@@ -50,8 +50,8 @@ export const MODEL_PROFILES: Record<string, Record<string, string>> = {
   'gsd-doc-verifier': { quality: 'sonnet', balanced: 'sonnet', budget: 'haiku', adaptive: 'haiku' },
 };
 
-/** Valid model profile names. */
-export const VALID_PROFILES: string[] = Object.keys(MODEL_PROFILES['gsd-planner']);
+/** Valid model profile names (includes 'inherit' which bypasses MODEL_PROFILES). */
+export const VALID_PROFILES: string[] = [...Object.keys(MODEL_PROFILES['gsd-planner']), 'inherit'];
 
 /**
  * Flat map of agent name → model alias for one profile tier (matches `model-profiles.cjs`).
