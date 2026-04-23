@@ -194,3 +194,25 @@ describe('VALID_PROFILES', () => {
     expect(VALID_PROFILES).toEqual(['quality', 'balanced', 'budget', 'adaptive', 'inherit']);
   });
 });
+
+// ─── getAgentToModelMapForProfile ───────────────────────────────────────────
+
+describe('getAgentToModelMapForProfile', () => {
+  it('returns inherit for all agents when profile is inherit', async () => {
+    const { getAgentToModelMapForProfile } = await import('./config-query.js');
+    const map = getAgentToModelMapForProfile('inherit');
+    expect(Object.keys(map).length).toBeGreaterThan(0);
+    for (const model of Object.values(map)) {
+      expect(model).toBe('inherit');
+    }
+  });
+
+  it('returns concrete models for non-inherit profiles', async () => {
+    const { getAgentToModelMapForProfile } = await import('./config-query.js');
+    const map = getAgentToModelMapForProfile('balanced');
+    for (const model of Object.values(map)) {
+      expect(model).not.toBe('inherit');
+      expect(['opus', 'sonnet', 'haiku']).toContain(model);
+    }
+  });
+});
